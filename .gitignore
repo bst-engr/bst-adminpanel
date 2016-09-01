@@ -16,3 +16,8 @@ _temp
 !systemjs.config.js
 !typings/typings.d.ts
 !wallaby.js
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
