@@ -44,7 +44,7 @@ class AuthenticateController extends Controller
     public function authenticate(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        var_dump($credentials);
+        
         try {
             // verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {
@@ -56,6 +56,10 @@ class AuthenticateController extends Controller
         }
 
         // if no errors are encountered we can return a JWT
+        return response()->json(compact('token'));
+    }
+
+    public function checkSession () {
         return response()->json(compact('token'));
     }
 }

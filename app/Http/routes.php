@@ -20,4 +20,5 @@ Route::group(['prefix' => 'api'], function()
 	Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
 	Route::post('authenticate', 'AuthenticateController@authenticate');
 	Route::get('get-products', 'ProductsController@getProducts');
+	Route::get('check-session', 'AuthenticateController@checkSession');
 });

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component,provide } from '@angular/core';
 import { FormsModule,FORM_DIRECTIVES }   from '@angular/forms';
 import { HTTP_PROVIDERS } from '@angular/http';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 //import { AuthenticationService } from './authentication/authentication.service';
 import { ProductService } from './products/product.service';
+import {LocationStrategy, HashLocationStrategy} from '@angular/common';
 
 @Component({
     selector: 'pm-app',
@@ -25,7 +26,8 @@ import { ProductService } from './products/product.service';
      `,
     directives: [ROUTER_DIRECTIVES,FORM_DIRECTIVES],
     providers: [ProductService,
-                HTTP_PROVIDERS]
+                HTTP_PROVIDERS,
+                {provide: LocationStrategy, useClass: HashLocationStrategy}]
 })
 
 export class AppComponent {

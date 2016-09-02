@@ -6,13 +6,14 @@ import { ProductFilterPipe } from './product-filter.pipe';
 import { StarComponent } from '../shared/star.component';
 import { ProductService } from './product.service';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { DataService} from '../shared/data.service';
 
 @Component({
     templateUrl: 'app/products/product-list.component.html',
     styleUrls: ['app/products/product-list.component.css'],
     pipes: [ProductFilterPipe],
     directives: [StarComponent, ROUTER_DIRECTIVES,FORM_DIRECTIVES],
-    providers: [AuthenticationService]
+    providers: [AuthenticationService, DataService]
 })
 export class ProductListComponent implements OnInit {
     pageTitle: string = 'Product List';
@@ -25,7 +26,8 @@ export class ProductListComponent implements OnInit {
 
     constructor(private router: Router,
                 private _productService: ProductService,
-                private _AuthenticationService: AuthenticationService) {
+                private _AuthenticationService: AuthenticationService,
+                private _dataService: DataService) {
 
     }
 
@@ -36,10 +38,25 @@ export class ProductListComponent implements OnInit {
     ngOnInit(): void {
            //this._AuthenticationService.checkCredentials(); // redirection if not authenticated      
             if(this._AuthenticationService.checkCredentials()) {
-               this._productService.getProducts()
+
+               /*this._productService.getProducts()
                      .subscribe(
                        products => this.products = products,
                        error =>  this.errorMessage = <any>error);
+                       */
+                this._dataService.httpGet('get-products', {})
+                               .map((res:Response) => res.json())
+                                .subscribe(data => this.products= data, 
+                                            err => this._dataService.parseError(error.json())
+                                );
+                
+                // console.log(JSON.stringify(this.__response));
+                // if(!this.__error) {
+                //     this.products = this.__response;
+                // } else {
+                //     console.log(data.error);
+                // }
+
              }
     }
 

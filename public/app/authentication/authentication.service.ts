@@ -18,11 +18,12 @@ var users = [
  
 @Injectable()
 export class AuthenticationService {
-  private authenticatedUser:any;
+  public authenticatedUser:any;
   private _loginUrl = 'http://api.local-angular/index.php/api/authenticate';
+
   constructor(
     private _router: Router,private _http: Http)
-  {}
+      {}
     
     logout() {
       localStorage.removeItem("user");
@@ -34,24 +35,18 @@ export class AuthenticationService {
       let body = JSON.stringify(user);
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
+      let _response:any;
        /*Initializing HTTP request*/
-       console.log(body);
-      this._http.post(this._loginUrl, body, options).subscribe(res=> this.authenticatedUser = res );
-      console.log(this.authenticatedUser);
-
-      if (this.authenticatedUser){
-        localStorage.setItem("user", this.authenticatedUser);
-        this._router.navigate(['/welcome']);
-       return true;
-      }
-      return false;
-   
+        return this._http.post(this._loginUrl, body, options);
     }
    
      checkCredentials(){
-      if (localStorage.getItem("user") === null){
+      if (localStorage.getItem("_userChek") === null){
           console.log('navigating to login');
           this._router.navigate(['/login']);
+          return false;
+      } else {
+        return true
       }
     } 
 

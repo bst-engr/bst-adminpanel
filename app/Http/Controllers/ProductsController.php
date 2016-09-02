@@ -11,7 +11,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
 use App\Product;
 
-class AuthenticateController extends Controller
+class ProductsController extends Controller
 {
 	private $product;
     public function __construct()
