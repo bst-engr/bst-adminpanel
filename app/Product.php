@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Validator;
 
 class Product extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -24,8 +25,32 @@ class Product extends Model implements AuthenticatableContract, CanResetPassword
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [ "productId",
+                            "productName",
+                            "productCode",
+                            "releaseDate",
+                            "description",
+                            "price",
+                            "starRating",
+                            "imageUrl"
+                        ];
+    /**
+     * [$primaryKey description]
+     * @var string
+     */
+    protected $primaryKey = 'productId';
 
+    public $errors;
+    
+    public static $rules = array("productId" => 'required',
+                                    "productName" => 'required',
+                                    "productCode" => 'required',
+                                    "releaseDate" => 'required',
+                                    "description" => 'required',
+                                    "price" => 'required',
+                                    "starRating" => 'required',
+                                    "imageUrl" => 'required'
+                            );
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -34,57 +59,27 @@ class Product extends Model implements AuthenticatableContract, CanResetPassword
     protected $hidden = [];
 
     public function getProducts() {
-        return array(
-                    array(
-                        "productId"=> 1,
-                        "productName"=> "Leaf Rake",
-                        "productCode"=> "GDN-0011",
-                        "releaseDate"=> "March 19, 2016",
-                        "description"=> "Leaf rake with 48-inch wooden handle.",
-                        "price"=> 19.95,
-                        "starRating"=> 3.2,
-                        "imageUrl"=> "http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png"
-                    ),
-                    array(
-                        "productId"=> 2,
-                        "productName"=> "Garden Cart",
-                        "productCode"=> "GDN-0023",
-                        "releaseDate"=> "March 18, 2016",
-                        "description"=> "15 gallon capacity rolling garden cart",
-                        "price"=> 32.99,
-                        "starRating"=> 4.2,
-                        "imageUrl"=> "http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png"
-                    ),
-                    array(
-                        "productId"=> 5,
-                        "productName"=> "Hammer",
-                        "productCode"=> "TBX-0048",
-                        "releaseDate"=> "May 21, 2016",
-                        "description"=> "Curved claw steel hammer",
-                        "price"=> 8.9,
-                        "starRating"=> 4.8,
-                        "imageUrl"=> "http://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png"
-                    ),
-                    array(
-                        "productId"=> 8,
-                        "productName"=> "Saw",
-                        "productCode"=> "TBX-0022",
-                        "releaseDate"=> "May 15, 2016",
-                        "description"=> "15-inch steel blade hand saw",
-                        "price"=> 11.55,
-                        "starRating"=> 3.7,
-                        "imageUrl"=> "http://openclipart.org/image/300px/svg_to_png/27070/egore911_saw.png"
-                    ),
-                    array(
-                        "productId"=> 10,
-                        "productName"=> "Video Game Controller",
-                        "productCode"=> "GMG-0042",
-                        "releaseDate"=> "October 15, 2015",
-                        "description"=> "Standard two-button video game controller",
-                        "price"=> 35.95,
-                        "starRating"=> 4.6,
-                        "imageUrl"=> "http://openclipart.org/image/300px/svg_to_png/120337/xbox-controller_01.png"
-                    )
-                );
+        return $this->get();
+    }
+
+    public function isValid() {
+        // mkaing validations
+        $validator = Validator::make($this->attributes, static::$rules);
+        
+        // check if validation passes
+        if($validator->passes()){
+
+            return true;
+
+        } else {
+
+            // setting up error messages.
+            $this->errors = $validator->messages();
+            return false;
+        }
+    }
+
+    public function updateProduct() {
+
     }
 }

@@ -45,9 +45,9 @@ export class ProductListComponent implements OnInit {
                        error =>  this.errorMessage = <any>error);
                        */
                 this._dataService.httpGet('get-products', {})
-                               .map((res:Response) => res.json())
+                               .map((res) => res.json())
                                 .subscribe(data => this.products= data, 
-                                            err => this._dataService.parseError(error.json())
+                                            err => this._dataService.parseError(err.json())
                                 );
                 
                 // console.log(JSON.stringify(this.__response));

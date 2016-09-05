@@ -10,6 +10,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
 use App\Product;
+use Input;
 
 class ProductsController extends Controller
 {
@@ -30,5 +31,32 @@ class ProductsController extends Controller
     public function getProducts(Request $request)
     {
     	echo json_encode($this->product->getProducts());
+    }
+
+    public function saveProducts(Request $request) {
+        // Form Processing
+
+        $this->product->fill(Input::all());
+        
+        //$id = empty(Input::get('id')) ? false : Input::get('id');
+
+        if ($this->product->isValid() ) {
+            if(!$this->product->productId || empty($this->product->productId) ){
+                $this->product->save();
+            } else {
+                $this->product->update();
+            }
+
+            // Success!
+            if(empty(Input::get('productId')) ) {
+                echo $this->product->productId;
+            }else{
+                echo Input::get('productId');
+            }
+        } else {
+
+            return json_encode($this->product->errors);
+            
+        }
     }
 }
