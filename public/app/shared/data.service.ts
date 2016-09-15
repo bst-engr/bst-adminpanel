@@ -63,4 +63,8 @@ export class DataService {
             this._router.navigate(['/login']);
         }
     }
+
+    navigator (url: string) {
+        this._router.navigate([url]);
+    }
 }

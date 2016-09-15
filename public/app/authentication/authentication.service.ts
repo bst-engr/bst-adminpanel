@@ -46,7 +46,8 @@ export class AuthenticationService {
           this._router.navigate(['/login']);
           return false;
       } else {
-        return true
+        this.authenticatedUser = true;
+        return true;
       }
     } 
 
@@ -61,9 +62,6 @@ export class AuthenticationService {
 
     private extractData(res: Response) {
       let body = res.json();
-
-      console.log(body);
-
       return body.data || { };
     }
 }

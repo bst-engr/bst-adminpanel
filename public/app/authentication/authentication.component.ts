@@ -21,7 +21,12 @@ export class LoginComponent {
         private _service:AuthenticationService,
         private _router: Router,
         private _http: Http) {}
- 
+     ngOnInit(): void {
+           //this._AuthenticationService.checkCredentials(); // redirection if not authenticated      
+        if(this._service.checkCredentials()) {
+            this._router.navigate(['/welcome']);        
+        }
+    }
     login() {
         this._service.login(this.user)
             .subscribe(data => this.parseResponse(data), 
@@ -36,6 +41,8 @@ export class LoginComponent {
       (this.authenticatedUser) = response.json();
       if (this.authenticatedUser){
           localStorage.setItem("_userChek", this.authenticatedUser.token);
+          this.authenticatedUser = true;
+          location.reload();
           this._router.navigate(['/welcome']);
          return true;
         }

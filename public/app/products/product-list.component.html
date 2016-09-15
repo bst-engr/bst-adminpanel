@@ -34,6 +34,7 @@
                         <th>Available</th>
                         <th>Price</th>
                         <th>5 Star Rating</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,6 +57,10 @@
                             <ai-star [rating]='product.starRating'
                                     (ratingClicked)='onRatingClicked($event)'>
                             </ai-star>
+                       </td>
+                       <td>
+                            <button class="btn btn-primary" (click)="editProduct(product.productId)">Edit</button>
+                            <button class="btn btn-primary" (click)="deleteProduct(product.productId)">Delete</button>
                        </td>
                     </tr>
                 </tbody>

@@ -42,13 +42,12 @@ class Product extends Model implements AuthenticatableContract, CanResetPassword
 
     public $errors;
     
-    public static $rules = array("productId" => 'required',
+    public static $rules = array(
                                     "productName" => 'required',
                                     "productCode" => 'required',
                                     "releaseDate" => 'required',
                                     "description" => 'required',
                                     "price" => 'required',
-                                    "starRating" => 'required',
                                     "imageUrl" => 'required'
                             );
     /**
@@ -79,7 +78,21 @@ class Product extends Model implements AuthenticatableContract, CanResetPassword
         }
     }
 
-    public function updateProduct() {
+    public function updateProduct($formData) {
+        return $this->where('productId', '=', $formData['productId'])
+                    ->update(
+                        array(
+                            "productName" => $formData['productName'],
+                            "productCode" => $formData['productCode'],
+                            "releaseDate" => $formData['releaseDate'],
+                            "description" => $formData['description'],
+                            "price" => $formData['price'],
+                            "imageUrl" => $formData['imageUrl']
+                        )
+                    );
+    }
 
+    public function getProductDetails( $id ) {
+        return $this->where('productId', '=', $id)->first();
     }
 }

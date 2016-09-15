@@ -59,4 +59,14 @@ class ProductsController extends Controller
             
         }
     }
+
+    public function deleteProduct($id){
+        $this->product->where('productId','=', $id)->delete();
+        echo json_encode($this->product->getProducts());;
+    }
+
+    public function getProduct ($id) {
+        $product = $this->product->getProductDetails($id);
+        echo json_encode($product);
+    }
 }

@@ -23,7 +23,7 @@ export class WelcomeComponent {
 
     checkSession() {
           this._dataService.httpGet('check-session')
-                              .subscribe(data => console.log(data), 
+                              .subscribe(data => {}, 
                                     err => this._dataService.parseError(err.json())
                               );
     }

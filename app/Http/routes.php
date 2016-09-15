@@ -24,4 +24,6 @@ Route::group(['prefix' => 'api'], function()
 	// --- Products
 	Route::get('get-products', 'ProductsController@getProducts');
 	Route::post('save-product', 'ProductsController@saveProducts');
+	Route::get('delete-product/{id}','ProductsController@deleteProduct');
+	Route::get('get-product/{id}','ProductsController@getProduct');
 });

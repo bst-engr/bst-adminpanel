@@ -38,26 +38,29 @@ export class ProductListComponent implements OnInit {
     ngOnInit(): void {
            //this._AuthenticationService.checkCredentials(); // redirection if not authenticated      
             if(this._AuthenticationService.checkCredentials()) {
-
-               /*this._productService.getProducts()
-                     .subscribe(
-                       products => this.products = products,
-                       error =>  this.errorMessage = <any>error);
-                       */
                 this._dataService.httpGet('get-products', {})
                                .map((res) => res.json())
                                 .subscribe(data => this.products= data, 
                                             err => this._dataService.parseError(err.json())
                                 );
-                
-                // console.log(JSON.stringify(this.__response));
-                // if(!this.__error) {
-                //     this.products = this.__response;
-                // } else {
-                //     console.log(data.error);
-                // }
-
              }
+    }
+
+    editProduct(id: number) {
+        console.log(id);
+        this.router.navigate(['/edit-product/'+id]);
+    }
+
+    deleteProduct(id: number) {
+        if(confirm("Are you sure to delete this item?")) {
+            this._dataService.httpGet('delete-product/'+id,{})
+                .map((res) => res.json())
+                .subscribe(
+                    data => this.products= data, 
+                    err => this._dataService.parseError(err.json())
+                );
+
+        }
     }
 
     onRatingClicked(message: string): void {

@@ -3,8 +3,6 @@
         {{pageTitle}}
         <a class="btn btn-default pull-right" [routerLink]="['/products']"> Back</a>
     </div>
-
-    
     <div class='panel-body'>
         <div class="form-horizontal">
             <div class='form-group'>
@@ -45,7 +43,9 @@
             <div class='form-group'>
                 <label for="inputEmail3" class="col-sm-2 control-label">Product image</label>
                 <div class='col-sm-10'>
-                    <input type='text' class="form-control" [(ngModel)]='product.imageUrl' />
+                    <input type="file" #imageFile (change)="previewFile()"><br>
+                    <img src="" height="200" #viewFile alt="Image preview...">
+                    <input type='hidden' class="form-control" [(ngModel)]='product.imageUrl' />
                     <label *ngIf="errors.imageUrl">{{errors.imageUrl}}</label>
                 </div>
             </div>
